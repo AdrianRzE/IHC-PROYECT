@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric House</title>
+    <link rel="shortcut icon" href="./ImagenesOfertas/Logo.png" type="image/x-icon">
+
+
+    <style>
+            .mensaje-alerta {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #28a745; /* Verde */
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            opacity: 0; /* El mensaje de alerta está inicialmente oculto */
+            transition: opacity 0.5s ease-in-out;
+            font-size: 24px; /* Tamaño de fuente más grande */
+            text-align: center; /* Centrar el texto */
+            z-index: 9999; /* Asegurar que esté por encima de otros elementos */
+        }
+
+        .mensaje-alerta.mostrar {
+            opacity: 1; /* Mostrar el mensaje de alerta */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        header nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        .header {
+        background-color: #00e0e4;
+        color: #fff;
+        padding: 10px 0; /* Reducir el padding del encabezado */
+    }
+
+    .logo {
+        max-width: 150px; /* Tamaño máximo del logo */
+        height: auto;
+    }
+
+    h1 {
+        font-size: 24px; /* Tamaño del título */
+        margin-top: 10px; /* Espacio superior para separar el logo del título */
+    }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .productos {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .producto {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            width: 200px;
+        }
+
+        .producto img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .carrito {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .carrito ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .carrito li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 text-center">
+                    <img src="./ImagenesOfertas/Logo.png" alt="Logo de la tienda" class="logo" style="max-width: 150px;">
+                    <h1 style="font-family: Arial, sans-serif; font-size: 36px; color: #ffffff;">Electric House</h1>
+                </div>
+                <div class="col-12 text-center">
+                    <nav>
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">
+                                    <img  src="./images/home-regular-24.png" alt="Inicio" style="max-width: 10%;"">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Contacto.html">
+                                    <img src="./images/envelope-regular-24.png" alt="Contacto" style="max-width: 10%;">
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="carrito" id="carrito">
+        <img src="./images/cart-regular-24.png" style="max-width: 150% ;" alt="Carrito">
+        <ul id="lista-carrito"></ul>
+        <button class="boton-comprar" onclick="realizarCompra()">Comprar</button>
+    </div>
+    <div class="mensaje-alerta" id="mensaje-alerta"></div>
+    <script>
+        function agregarAlCarrito(nombre, precio) {
+            const carrito = document.getElementById('lista-carrito');
+            if (carrito) {
+                const nuevoItem = document.createElement('li');
+                nuevoItem.textContent = `${nombre} - $${precio}`;
+                carrito.appendChild(nuevoItem);
+            } else {
+                console.error('No se encontró el elemento #lista-carrito');
+            }
+        }
+        function realizarCompra()
+         {
+            const carrito = document.getElementById('lista-carrito');
+            if (carrito && carrito.children.length > 0) {
+                mostrarMensajeAlerta('Compra realizada','#28a745' );
+                carrito.innerHTML = ''; 
+            } else {
+                mostrarMensajeAlerta('Agrega al menos un producto al carrito antes de realizar la compra');
+            }
+        }
+        function mostrarMensajeAlerta(mensaje, color) {
+            const mensajeAlerta = document.getElementById('mensaje-alerta');
+            mensajeAlerta.textContent = mensaje;
+            mensajeAlerta.style.backgroundColor = color;
+            mensajeAlerta.classList.add('mostrar'); // Agregar clase para mostrar el mensaje
+            setTimeout(function() {
+                mensajeAlerta.classList.remove('mostrar'); // Remover clase después de 3 segundos
+            }, 3000);
+        }
+    </script>
+    <style>
+        .producto img {
+            max-width: 300px; /* Establece el ancho máximo de todas las imágenes en 300px */
+            height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
+        }
+    </style>
+    <section class="productos">
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="https://img.global.news.samsung.com/co/wp-content/uploads/2018/11/FH.jpg" alt="Nevera Samsung" style=" max-width: 500px;">
+            <h3>Nevera Samsung</h3>
+            <p>Precio: $500</p>
+            <button onclick="agregarAlCarrito('Nevera Samsung', 500)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/lavadora.jpg" alt="Lavadora LG">
+            <h3>Lavadora LG</h3>
+            <p>Precio: $400</p>
+            <button onclick="agregarAlCarrito('Lavadora LG', 400)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/micpanasonic.jpg" alt="Microondas Panasonic">
+            <h3>Microondas Panasonic</h3>
+            <p>Precio: $200</p>
+            <button onclick="agregarAlCarrito('Microondas Panasonic', 200)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/cafetera.jpg" alt="Cafetera Philips">
+            <h3>Cafetera Philips</h3>
+            <p>Precio: $100</p>
+            <button onclick="agregarAlCarrito('Cafetera Philips', 100)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="https://casacuesta.com/media/catalog/product/cache/fde49a4ea9a339628caa0bc56aea00ff/3/3/3321626-1.jpg" alt="Licuadora Oster">
+            <h3>Licuadora Oster</h3>
+            <p>Precio: $80</p>
+            <button onclick="agregarAlCarrito('Licuadora Oster', 80)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/Hornoele.jpg" alt="Horno Eléctrico">
+            <h3>Horno Eléctrico</h3>
+            <p>Precio: $300</p>
+            <button onclick="agregarAlCarrito('Horno Eléctrico', 300)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/aspiradora.jpg" alt="Aspiradora Dyson">
+            <h3>Aspiradora</h3>
+            <p>Precio: $400</p>
+            <button onclick="agregarAlCarrito('Aspiradora Dyson', 400)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/batidor.jpg" alt="Batidora Moulinex">
+            <h3>Batidora Moulinex</h3>
+            <p>Precio: $50</p>
+            <button onclick="agregarAlCarrito('Batidora Moulinex', 50)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/plancha.jpg" alt= "Plancha Philips">
+            <h3>Plancha Philips</h3>
+            <p>Precio: $30</p>
+            <button onclick="agregarAlCarrito('Plancha Philips', 30)">Comprar</button>
+        </div>
+
+        <div style="background-color: #ff823a;" class="producto">
+            <img src="./images/exprimidor.jpg" alt="Exprimidor Braun">
+            <h3>Exprimidor Braun</h3>
+            <p>Precio: $40</p>
+            <button onclick="agregarAlCarrito('Exprimidor Braun', 40)">Comprar</button>
+        </div>
+        <div style="background-color: #ff823a;" class="producto">
+          <img src="./images/aire.jpg" alt="Aire acondicionado">
+          <h3>Aire acondicionado</h3>
+          <p>Precio: $200</p>
+          <button onclick="agregarAlCarrito('Aire acondicionado', 50)">Comprar</button>
+      </div>
+      <div style="background-color: #ff823a;" class="producto">
+        <img src="./images/audiosony.jpg" alt="Sitema de audio Sony">
+        <h3>Sitema de audio Sony</h3>
+        <p>Precio: $500</p>
+        <button onclick="agregarAlCarrito('Sitema de audio Sony', 60)">Comprar</button>
+    </div>
+    <div style="background-color: #ff823a;" class="producto">
+        <img src="./images/tostadora.jpg" alt="Sitema de audio Sony">
+        <h3>Tostadora</h3>
+        <p>Precio: $65</p>
+        <button onclick="agregarAlCarrito('Sitema de audio Sony', 60)">Comprar</button>
+    </div>
+    </section>
+  </body>
+  </html>

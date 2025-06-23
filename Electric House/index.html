@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Electric House</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="shortcut icon" href="./ImagenesOfertas/Logo.png" type="image/x-icon">
+  <style> 
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+  }
+
+  .header-logo {
+    width: 50px;
+    height: auto;
+  }
+
+  .product .card-img-top {
+    cursor: pointer;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .contact-icon {
+    color: #2E3192;
+    font-size: 1.2rem;
+    margin-left: 15px;
+    text-decoration: none;
+  }
+
+  .cart-btn {
+    position: relative;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 0.75rem;
+  }
+
+  .social-icon {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-right: 15px;
+    text-decoration: none;
+  }
+
+  .footer-link {
+    color: #ccc;
+    text-decoration: none;
+  }
+
+  .footer-link:hover {
+    text-decoration: underline;
+    color: #fff;
+  }
+
+  .modal-header {
+    border-bottom: none;
+  }
+
+  .modal-footer {
+    border-top: none;
+  }
+
+  .cart-item-remove {
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body>
+
+<!-- ... (header and main content same as before) ... -->
+<header class="bg-white border-bottom shadow-sm py-3 sticky-top">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <img src="./ImagenesOfertas/Logo.png" alt="Logo Electric House" class="header-logo me-3">
+      <h1 class="h4 mb-0 text-primary fw-bold">Electric House</h1>
+    </div>
+    <div class="d-flex align-items-center">
+      <!-- Botones de contacto como iconos -->
+      <a href="Contacto.html" class="contact-icon" title="Formulario de contacto">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="mailto:ventas@electrichouse.com" class="contact-icon" title="Enviar correo">
+        <i class="fas fa-paper-plane"></i>
+      </a>
+      <a href="tel:+18095551234" class="contact-icon" title="Llamar">
+        <i class="fas fa-phone"></i>
+      </a>
+      
+      <!-- Botón del carrito -->
+      <button class="btn btn-outline-dark ms-3 cart-btn" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge bg-success cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="container my-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold mb-3">Productos Destacados</h2>
+    <p class="lead text-muted">Encuentra los mejores electrodomésticos para tu hogar</p>
+  </div>
+
+  <div class="row g-4" id="product-list">
+    <!-- Producto 1 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="https://img.global.news.samsung.com/co/wp-content/uploads/2018/11/FH.jpg" class="card-img-top img-fluid" alt="Nevera Samsung" onclick="showDescription('Nevera espaciosa que enfría hasta los chismes. Ideal para guardar todo... menos secretos.', 58000)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Nevera Samsung</h5>
+          <p class="card-text text-success fw-bold">RD$58,000.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Nevera Samsung', 58000)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 2 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="./images/lavadora.jpg" class="card-img-top img-fluid" alt="Lavadora LG" onclick="showDescription('Lavadora tan eficiente que puede lavar hasta tus pecados.', 39500)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Lavadora LG</h5>
+          <p class="card-text text-success fw-bold">RD$39,500.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Lavadora LG', 39500)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 3 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="./images/micpanasonic.jpg" class="card-img-top img-fluid" alt="Microondas Panasonic" onclick="showDescription('Microondas para calentar el corazón de tu ex... o una pizza fría.', 13500)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Microondas Panasonic</h5>
+          <p class="card-text text-success fw-bold">RD$13,500.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Microondas Panasonic', 13500)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 4 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="./images/cafetera.jpg" class="card-img-top img-fluid" alt="Cafetera Philips" onclick="showDescription('Enamora-suegras 3000.', 4500)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Cafetera Philips</h5>
+          <p class="card-text text-success fw-bold">RD$4,500.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Cafetera Philips', 4500)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 5 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="https://casacuesta.com/media/catalog/product/cache/fde49a4ea9a339628caa0bc56aea00ff/3/3/3321626-1.jpg" class="card-img-top img-fluid" alt="Licuadora Oster" onclick="showDescription('Licuadora tan potente que hace batidos y hasta rompe corazones.', 3200)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Licuadora Oster</h5>
+          <p class="card-text text-success fw-bold">RD$3,200.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Licuadora Oster', 3200)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 6 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="./images/Hornoele.jpg" class="card-img-top img-fluid" alt="Horno Eléctrico" onclick="showDescription('Horno eléctrico que calienta más rápido que tu crush viendo tu historia.', 17900)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Horno Eléctrico</h5>
+          <p class="card-text text-success fw-bold">RD$17,900.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Horno Eléctrico', 17900)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 7: Plancha Philips -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="ImagenesOfertas/plancha.jpg" class="card-img-top img-fluid" alt="Plancha Philips" onclick="showDescription('Plancha a vapor con suela cerámica y sistema antigoteo.', 1800)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Plancha Philips</h5>
+          <p class="card-text text-success fw-bold">RD$1,800.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Plancha Philips', 1800)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 8: Tostadora Cuisinart -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="ImagenesOfertas/tostadora.jpg" class="card-img-top img-fluid" alt="Tostadora Premium" onclick="showDescription('Tostadora de ranura ancha con niveles de tostado ajustables y bandeja recogemigas.', 3200)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Tostadora Cuisinart</h5>
+          <p class="card-text text-success fw-bold">RD$3,200.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Tostadora Premium', 3200)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Producto 9: Aspiradora Dyson 
+    <div class="col-md-4 col-sm-6">
+      <div class="card product h-100">
+        <img src="Images/aspiradora.jpg" class="card-img-top img-fluid" alt="Tostadora Premium" onclick="showDescription('Aspiradora la exploradora, para limpiar todos los pelos de Zorro', 22200)">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">Aspiradora Dyson</h5>
+          <p class="card-text text-success fw-bold">RD$22,200.00</p>
+          <button class="btn btn-primary mt-auto" onclick="addToCart(event, 'Tostadora Premium', 22200)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>-->
+</main>
+<script>
+  // (productos y renderizado dinámico)
+  const cartItems = [];
+
+  function toggleCart() {
+    document.getElementById('cart').classList.toggle('d-none');
+  }
+
+  function addToCart(e, name, price) {
+    cartItems.push({ name, price });
+    updateCart();
+  }
+
+  function updateCart() {
+    const list = document.getElementById('cart-items');
+    list.innerHTML = '';
+    let total = 0;
+    cartItems.forEach((item, index) => {
+      total += item.price;
+      list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+        ${item.name}
+        <span>
+          RD$${item.price.toLocaleString()}.00
+          <i class="fas fa-trash ms-2 text-danger cart-item-remove" onclick="removeFromCart(${index})"></i>
+        </span>
+      </li>`;
+    });
+    document.getElementById('cart-total').innerText = `RD$${total.toLocaleString()}.00`;
+    document.getElementById('cart-count').innerText = cartItems.length;
+  }
+
+  function removeFromCart(index) {
+    cartItems.splice(index, 1);
+    updateCart();
+  }
+
+  function clearCart() {
+    cartItems.length = 0;
+    updateCart();
+  }
+
+  function checkout() {
+    if (cartItems.length === 0) {
+      alert('El carrito está vacío.');
+      return;
+    }
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    paymentModal.show();
+  }
+
+  function showDescription(desc, price) {
+    document.getElementById('desc-text').innerText = `${desc}\nPrecio: RD$${price.toLocaleString()}.00`;
+    const descModal = new bootstrap.Modal(document.getElementById('descModal'));
+    descModal.show();
+  }
+
+  document.getElementById('payment-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Gracias por tu compra. Te contactaremos pronto.');
+    clearCart();
+    bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+  });
+</script>
+
+<!-- CARRITO -->
+<div id="cart" class="position-fixed end-0 top-0 bg-white border-start p-4 shadow-lg vh-100 overflow-auto d-none" style="width: 350px; z-index: 1050; margin-top: 56px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0"><i class="fas fa-shopping-cart me-2"></i>Tu Carrito</h4>
+    <button class="btn btn-sm btn-outline-danger" onclick="toggleCart()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <ul class="list-group mb-3" id="cart-items"></ul>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Total:</h5>
+    <h4 class="mb-0 text-success" id="cart-total">RD$0.00</h4>
+  </div>
+  <button class="btn btn-success w-100 py-2 mb-2" onclick="checkout()">
+    <i class="fas fa-credit-card me-2"></i>Confirmar Compra
+  </button>
+  <button class="btn btn-outline-danger w-100 py-2" onclick="clearCart()">
+    <i class="fas fa-trash me-2"></i>Vaciar Carrito
+  </button>
+</div>
+<!--MOdal descripcion-->
+<div class="modal fade" id="descModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Descripción del Producto</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img id="desc-img" src="" class="img-fluid mb-3" alt="Producto">
+        <p id="desc-text"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL COMPRA (actualizado con formulario de tarjeta si se elige "tarjeta") -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Finalizar Compra</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="payment-form">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Selecciona el método de pago</label>
+            <select class="form-select" id="payment-method" required>
+              <option value="">Elige una opción</option>
+              <option value="efectivo">Pago contra entrega</option>
+              <option value="transferencia">Transferencia bancaria</option>
+              <option value="tarjeta">Tarjeta de crédito/débito</option>
+            </select>
+          </div>
+
+          <div id="card-info" style="display: none">
+            <div class="mb-3">
+              <label class="form-label">Número de tarjeta</label>
+              <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Fecha de expiración</label>
+                <input type="text" class="form-control" placeholder="MM/AA">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">CVV</label>
+                <input type="text" class="form-control" placeholder="123" maxlength="4">
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Dirección de envío</label>
+            <textarea class="form-control" rows="3" required></textarea>
+          </div>
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> Nos contactaremos contigo para confirmar el método de pago y entrega.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Enviar pedido</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Script actualizado para descripción y formulario de tarjeta -->
+<script>
+  function showDescription(desc, price, imgUrl) {
+    document.getElementById('desc-text').innerText = `${desc}\nPrecio: RD$${price.toLocaleString()}.00`;
+    document.getElementById('desc-img').src = imgUrl;
+    const descModal = new bootstrap.Modal(document.getElementById('descModal'));
+    descModal.show();
+  }
+
+  document.getElementById('payment-method')?.addEventListener('change', function () {
+    const cardSection = document.getElementById('card-info');
+    cardSection.style.display = this.value === 'tarjeta' ? 'block' : 'none';
+  });
+
+  // Actualiza todos los onclick para incluir la imagen local correcta
+  window.addEventListener('DOMContentLoaded', () => {
+    const products = [
+      { name: 'Nevera Samsung', price: 58000, desc: 'Nevera espaciosa que enfría hasta los chismes. Ideal para guardar todo... menos secretos.', img: 'https://img.global.news.samsung.com/co/wp-content/uploads/2018/11/FH.jpg' },
+      { name: 'Lavadora LG', price: 39500, desc: 'Lavadora tan eficiente que puede lavar hasta tus pecados.', img: './images/lavadora.jpg' },
+      { name: 'Microondas Panasonic', price: 13500, desc: 'Microondas para calentar el corazón de tu ex... o una pizza fría.', img: './images/micpanasonic.jpg' },
+      { name: 'Cafetera Philips', price: 4500, desc: 'Enamora-suegras 3000.', img: './images/cafetera.jpg' },
+      { name: 'Licuadora Oster', price: 3200, desc: 'Licuadora tan potente que hace batidos y hasta rompe corazones.', img: 'https://casacuesta.com/media/catalog/product/cache/fde49a4ea9a339628caa0bc56aea00ff/3/3/3321626-1.jpg' },
+      { name: 'Horno Eléctrico', price: 17900, desc: 'Horno eléctrico que calienta más rápido que tu crush viendo tu historia.', img: './images/Hornoele.jpg' },
+      { name: 'Plancha Philips', price: 1800, desc: 'Plancha a vapor con suela cerámica y sistema antigoteo.', img: './ImagenesOfertas/plancha.jpg' },
+      { name: 'Tostadora Premium', price: 3200, desc: 'Tostadora de ranura ancha con niveles de tostado ajustables y bandeja recogemigas.', img: './ImagenesOfertas/tostadora.jpg' },
+      { name: 'Aspiradora Dyson', price: 22500, desc: 'Aspiradora Dyson con potente succión y diseño sin cables para limpiar fácilmente todo tu hogar.', img: './images/aspiradora.jpg' },
+    ];
+
+    products.forEach(p => {
+      const imgEl = document.querySelector(`img[alt='${p.name}']`);
+      if (imgEl) {
+        imgEl.setAttribute('onclick', `showDescription('${p.desc}', ${p.price}, '${p.img}')`);
+      }
+    });
+  });
+</script>
+
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>Electric House</h5>
+        <p>Soluciones eléctricas para tu hogar y negocio.</p>
+        <div class="mt-3">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h5>Contacto</h5>
+        <ul class="list-unstyled">
+          <li><i class="fas fa-map-marker-alt me-2"></i> Av. 27 de Febrero #123</li>
+          <li><i class="fas fa-phone me-2"></i> <a href="tel:+18095551234" class="footer-link">(809) 555-1234</a></li>
+          <li><i class="fas fa-envelope me-2"></i> <a href="mailto:ventas@electrichouse.com" class="footer-link">ventas@electrichouse.com</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Horario</h5>
+        <ul class="list-unstyled">
+          <li><i class="far fa-clock me-2"></i> Lunes - Viernes: 8:00 AM - 5:00 PM</li>
+          <li><i class="far fa-clock me-2"></i> Sábado: 9:00 AM - 1:00 PM</li>
+          <li><i class="far fa-clock me-2"></i> Domingo: Cerrado</li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center pt-4 border-top border-secondary mt-4">
+      &copy; 2025 Electric House. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<!-- FUNCIONES JS -->
+<script>
+  const cartItems = [];
+
+  function toggleCart() {
+    document.getElementById('cart').classList.toggle('d-none');
+  }
+
+  function addToCart(e, name, price) {
+    cartItems.push({ name, price });
+    updateCart();
+  }
+
+  function updateCart() {
+    const list = document.getElementById('cart-items');
+    list.innerHTML = '';
+    let total = 0;
+    cartItems.forEach((item, index) => {
+      total += item.price;
+      list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+        ${item.name}
+        <span>
+          RD$${item.price.toLocaleString()}.00
+          <i class="fas fa-trash ms-2 text-danger cart-item-remove" onclick="removeFromCart(${index})"></i>
+        </span>
+      </li>`;
+    });
+    document.getElementById('cart-total').innerText = `RD$${total.toLocaleString()}.00`;
+    document.getElementById('cart-count').innerText = cartItems.length;
+  }
+
+  function removeFromCart(index) {
+    cartItems.splice(index, 1);
+    updateCart();
+  }
+
+  function clearCart() {
+    cartItems.length = 0;
+    updateCart();
+  }
+
+  function checkout() {
+    if (cartItems.length === 0) {
+      alert('El carrito está vacío.');
+      return;
+    }
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    paymentModal.show();
+  }
+
+  function showDescription(desc, price) {
+    document.getElementById('desc-text').innerText = `${desc}\nPrecio: RD$${price.toLocaleString()}.00`;
+    const descModal = new bootstrap.Modal(document.getElementById('descModal'));
+    descModal.show();
+  }
+
+  document.getElementById('payment-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Gracias por tu compra. Te contactaremos pronto.');
+    clearCart();
+    bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
